@@ -1,12 +1,49 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import Header from '@/components/Header';
+import Navigation from '@/components/Navigation';
+import Dashboard from '@/components/Dashboard';
+import StudentManagement from '@/components/StudentManagement';
+import CourseManagement from '@/components/CourseManagement';
+import AcademicManagement from '@/components/AcademicManagement';
+import UserManagement from '@/components/UserManagement';
+import Settings from '@/components/Settings';
 
 const Index = () => {
+  const [activeTab, setActiveTab] = useState('inicio');
+  const [userName] = useState('Administrador');
+
+  const handleLogout = () => {
+    console.log('Cerrando sesión...');
+  };
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'inicio':
+        return <Dashboard />;
+      case 'alumnos':
+        return <StudentManagement />;
+      case 'cursos':
+        return <CourseManagement />;
+      case 'academico':
+        return <AcademicManagement />;
+      case 'usuarios':
+        return <UserManagement />;
+      case 'configuracion':
+        return <Settings />;
+      default:
+        return <Dashboard />;
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      <Header userName={userName} onLogout={handleLogout} />
+      <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
+      
+      <main className="container mx-auto px-4 py-6">
+        {renderContent()}
+      </main>
     </div>
   );
 };
